@@ -25,7 +25,7 @@ func main() {
 	}
 
 	if *config == "" {
-		*config = path.Join(currentDir(), "config.ini")
+		*config = path.Join(currentDir, "config.ini")
 	}
 	cfg, err := newConfig(*config)
 	if err != nil {

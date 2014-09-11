@@ -12,6 +12,7 @@ type Config struct {
 	Host     string
 	HttpPort int
 	ScgiPort int
+	FontPath string
 }
 
 func newConfig(cfg string) (*Config, error) {
@@ -28,13 +29,14 @@ func newConfig(cfg string) (*Config, error) {
 		Host:     cf.MustValue(ds, "bindHost", "0.0.0.0"),
 		HttpPort: cf.MustInt(ds, "httpPort", 4230),
 		ScgiPort: cf.MustInt(ds, "scgiPort", 4231),
+		FontPath: cf.MustValue(ds, "fontPath", currentDir),
 	}, nil
 }
 
-func currentDir() string {
+var currentDir = func() string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		log.Fatal(err)
 	}
 	return dir
-}
+}()
