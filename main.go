@@ -6,12 +6,14 @@ import (
 	"log"
 	"os"
 	"path"
+	"time"
 )
 
 var (
 	flagSet = flag.NewFlagSet("simages", flag.ExitOnError)
 
 	config  = flagSet.String("config", "", "the path of configure file.(required), default current directory config.ini")
+	debug   = flagSet.Bool("debug", false, "run with debug")
 	version = flagSet.Bool("version", false, "print version string")
 )
 
@@ -23,7 +25,7 @@ func main() {
 	}
 
 	if *config == "" {
-		*config = path.Join(CurrentDir(), "config.ini")
+		*config = path.Join(currentDir(), "config.ini")
 	}
 	cfg, err := newConfig(*config)
 	if err != nil {
@@ -31,5 +33,9 @@ func main() {
 	}
 	fmt.Println(cfg)
 
-	fmt.Println(CurrentDir())
+	logger := newLogger(10000, cfg.LogPath)
+	log.Println(*debug)
+
+	logger.Info("nihao")
+	time.Sleep(time.Second * 2)
 }
